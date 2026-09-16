@@ -80,15 +80,18 @@ class ClinicaServiceTest {
         assertEquals("62988887777", servico.buscarTutor(tutor.getId()).getTelefone());
     }
 
+    @Test
+    @DisplayName("6. Remocao de tutor com animais vinculados lanca TutorComAnimaisException")
+    void remocaoDeTutorComAnimaisLancaExcecao() {
+        Tutor tutor = servico.cadastrarTutor(novoTutor("Elisa Martins", "55555555555"));
+        servico.cadastrarAnimal(tutor.getId(), new Animal("Bidu", "Cao", LocalDate.of(2021, 6, 10)));
 
-    //@Test
-    //@DisplayName("6. Remocao de tutor com animais vinculados lanca TutorComAnimaisException")
-    //void remocaoDeTutorComAnimaisLancaExcecao() {
-        // Cadastre um tutor, vincule um animal e verifique que a remocao do
-        // tutor lanca TutorComAnimaisException, cuja mensagem deve conter o
-        // identificador do tutor.
-        //fail("Teste a ser escrito pelo aluno");
-    //}
+        TutorComAnimaisException erro = assertThrows(TutorComAnimaisException.class,
+                () -> servico.removerTutor(tutor.getId()));
+
+        assertTrue(erro.getMessage().contains(tutor.getId().toString()));
+    }
+
 
     //@Test
     //@DisplayName("7. Listagem retorna apenas os animais do tutor informado")
