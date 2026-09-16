@@ -68,13 +68,18 @@ class ClinicaServiceTest {
         assertEquals(tutor.getId(), animal.getTutor().getId());
     }
 
-    //@Test
-    //@DisplayName("5. Atualizacao de tutor persiste as alteracoes")
-    //void atualizacaoDeTutorPersisteAlteracoes() {
-        // Cadastre um tutor, atualize nome e telefone e verifique, apos nova
-        // busca, que as alteracoes foram gravadas e que o identificador nao mudou.
-        //fail("Teste a ser escrito pelo aluno");
-    //}
+    @Test
+    @DisplayName("5. Atualizacao de tutor persiste as alteracoes")
+    void atualizacaoDeTutorPersisteAlteracoes() {
+        Tutor tutor = servico.cadastrarTutor(novoTutor("Diego Alves", "44444444444"));
+
+        Tutor atualizado = servico.atualizarTutor(tutor.getId(), "Diego Alves Ferreira", "62988887777");
+
+        assertEquals(tutor.getId(), atualizado.getId());
+        assertEquals("Diego Alves Ferreira", servico.buscarTutor(tutor.getId()).getNome());
+        assertEquals("62988887777", servico.buscarTutor(tutor.getId()).getTelefone());
+    }
+
 
     //@Test
     //@DisplayName("6. Remocao de tutor com animais vinculados lanca TutorComAnimaisException")
