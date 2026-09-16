@@ -92,12 +92,18 @@ class ClinicaServiceTest {
         assertTrue(erro.getMessage().contains(tutor.getId().toString()));
     }
 
+     @Test
+    @DisplayName("7. Listagem retorna apenas os animais do tutor informado")
+    void listagemRetornaApenasAnimaisDoTutor() {
+        Tutor tutor1 = servico.cadastrarTutor(novoTutor("Fabio Nunes", "66666666666"));
+        Tutor tutor2 = servico.cadastrarTutor(novoTutor("Giovana Reis", "77777777777"));
+        servico.cadastrarAnimal(tutor1.getId(), new Animal("Mel", "Gato", LocalDate.of(2020, 1, 5)));
+        servico.cadastrarAnimal(tutor2.getId(), new Animal("Thor", "Cao", LocalDate.of(2019, 9, 20)));
 
-    //@Test
-    //@DisplayName("7. Listagem retorna apenas os animais do tutor informado")
-    //void listagemRetornaApenasAnimaisDoTutor() {
-        // Cadastre dois tutores com animais distintos e verifique que a
-        // listagem de um deles nao inclui os animais do outro.
-        //fail("Teste a ser escrito pelo aluno");
-    //}
+        List<Animal> animaisDoTutor1 = servico.listarAnimaisDoTutor(tutor1.getId());
+
+        assertEquals(1, animaisDoTutor1.size());
+        assertEquals("Mel", animaisDoTutor1.get(0).getNome());
+    }
+
 }
