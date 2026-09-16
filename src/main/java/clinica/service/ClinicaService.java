@@ -11,10 +11,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Camada de servico da atividade pratica: concentra as regras de negocio
- * do cadastro de tutores e animais e delimita as transacoes.
- */
+
 @Service
 public class ClinicaService {
 
@@ -25,8 +22,6 @@ public class ClinicaService {
         this.tutorRepository = tutorRepository;
         this.animalRepository = animalRepository;
     }
-
-    // --- Tutor ---------------------------------------------------------------
 
     @Transactional
     public Tutor cadastrarTutor(Tutor tutor) {
@@ -47,7 +42,6 @@ public class ClinicaService {
         return tutorRepository.findAll();
     }
 
-    /** Atualiza nome e telefone do tutor; identificador inexistente deve falhar. */
     @Transactional
     public Tutor atualizarTutor(Long id, String novoNome, String novoTelefone) {
         Tutor tutor = buscarTutor(id);
@@ -56,7 +50,6 @@ public class ClinicaService {
         return tutorRepository.save(tutor);
     }
 
-    /** Remove o tutor apenas se nao houver animais vinculados. */
     @Transactional
     public void removerTutor(Long id) {
         Tutor tutor = buscarTutor(id);
@@ -67,9 +60,6 @@ public class ClinicaService {
         tutorRepository.delete(tutor);
     }
 
-    // --- Animal ----------------------------------------------------------------
-
-    /** Cadastra o animal vinculando-o ao tutor informado. */
     @Transactional
     public Animal cadastrarAnimal(Long tutorId, Animal animal) {
         Tutor tutor = buscarTutor(tutorId);
